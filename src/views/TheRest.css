@@ -1,0 +1,17 @@
+.TheRestDiv {
+    color: royalblue;
+    font-size: 46px;
+}
+
+.square {
+    width: 200px;
+    height: 200px;
+    background-color: plum;
+    display: inline-block;
+}
+
+.square-box {
+    display: flex;
+    justify-content: space-evenly;
+}
+
