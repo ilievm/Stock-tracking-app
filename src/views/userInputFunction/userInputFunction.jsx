@@ -4,6 +4,7 @@ const Stock = {
             fetchStock(name) {
                 let stockObject={
                     type: "line",
+                    xValueFormatString: "MMM YYYY",
                     showInLegend: true,
                     name: '',
                     dataPoints: []
@@ -30,7 +31,7 @@ const Stock = {
                         
                     }
                             // pushing them in the state
-                    for (let i = stockChartXValuesFunction.length; i >= 0; i--) {
+                    for (let i = 0;  i <= stockChartXValuesFunction.length; i++) {
                         stockObject.dataPoints.push({y: stockChartYValuesFunction[i], label: stockChartXValuesFunction[i]})}     
                     }
                     

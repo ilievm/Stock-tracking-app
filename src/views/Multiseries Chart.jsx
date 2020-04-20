@@ -71,7 +71,7 @@ class MultiseriesChart extends Component {
 	// iterates over the function above and pushes values one by one to a new var and returns it
 	Stock1(param) {
 		let y = [];
-		for (let i = this.state.stockChartXValues.length; i >= 0; i--) {
+		for (let i = 0;  i <= this.state.stockChartXValues.length; i++) {
 			y.push({y: this.state.stockChartYValues[i], label: this.state.stockChartXValues[i]})}
 		return y
 	// iterates over state and one by one pushing stock to Y on command. then called from render to chart the line
@@ -94,7 +94,17 @@ class MultiseriesChart extends Component {
 			this.rerenderOnUpd();
 			console.log('updated');
 			
-		}, 800) 
+		}, 800);
+		setTimeout(() => {
+			this.rerenderOnUpd();
+			console.log('updated');
+			
+		}, 1800);
+		setTimeout(() => {
+			this.rerenderOnUpd();
+			console.log('updated');
+			
+		}, 2500) 
 	}
 
 	testlog(){
@@ -109,9 +119,13 @@ class MultiseriesChart extends Component {
 				title:{
 					text: "Stock Perfomance"
 				},
+				axisX:{
+					reversed: true,
+				},
 				axisY : {
 					title: "Price(USD)",
 					prefix: "$",
+					includeZero: true
 	
 				},
 				toolTip: {
@@ -121,27 +135,10 @@ class MultiseriesChart extends Component {
 				data: [
 			/* 1 */	{
 						type: "line",
-						name: "date",
+						name: 'INX',
+						xValueFormatString: "MMM YYYY",
 						showInLegend: true,
 						dataPoints: this.Stock1()
-					},
-			/* 2 */	{
-						type: "line",
-						name: "2017",
-						showInLegend: true,
-						dataPoints: null
-					},
-			/* 3 */	{
-						type: "line",
-						name: "2017",
-						showInLegend: true,
-						dataPoints: null
-					},
-			/* 4 */	{
-						type: "line",
-						name: "2017",
-						showInLegend: true,
-						dataPoints: null
 					}
 				]}
 
