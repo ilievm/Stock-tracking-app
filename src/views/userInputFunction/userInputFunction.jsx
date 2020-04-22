@@ -9,7 +9,6 @@ const Stock = {
                     name: '',
                     dataPoints: []
                 };
-                const pointerToThis = this;
                 // console.log(pointerToThis);
                 const API_KEY = '740WRQPFQK10PTAG';
                 let API_Call = `https://www.alphavantage.co/query?function=TIME_SERIES_MONTHLY_ADJUSTED&symbol=${name}&apikey=${API_KEY}`;

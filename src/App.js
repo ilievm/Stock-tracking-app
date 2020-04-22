@@ -4,20 +4,11 @@ import TheRest from './views/TheRest';
 
 
 let contStyles = {
-    backgroundColor: 'red',
-    width: '70vw',
+    width: '95vw',
     margin: '0 auto'
 }
 
-let searchQuerry;
-
-class App extends Component {
-  constructor(props) {
-    super(props);
-  }
-  
-
-  
+class App extends Component {  
   render() {    
     return (
       <div className="mainDIv">

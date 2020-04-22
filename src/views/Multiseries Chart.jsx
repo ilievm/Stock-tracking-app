@@ -4,17 +4,8 @@ import CanvasJSReact from '../assets/canvasjs.react';
 import Stock from "./userInputFunction/userInputFunction";
 var CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
- 
-// let thestyles = {
-// 	backgroundColor: 'red',
-// width: '90vw', }
 let options;
-let searchTearm
-
-let dataPoints1;
-let dataPoints2;
-let dataPoints3;
-let dataPoints4;
+let searchTearm;
 
 class MultiseriesChart extends Component {	
 	constructor(props) {
@@ -78,33 +69,37 @@ class MultiseriesChart extends Component {
 	}
 
 	rerenderOnUpd() {
-		this.chart.render()
-	}
+		this.chart.render()}
 
-	handleSearch(event){searchTearm = event.target.value}
+	handleSearch(event){
+		searchTearm = event.target.value.toUpperCase()}
 	// assigns to searchTerm whatever is in typed in the input field
-	componentDidUpdate(){
-		
+
+	enterPressed(event) {
+		var code = event.keyCode || event.which;
+		if(code === 13) { //13 is the enter keycode
+			this.pushData()
+		} 
 	}
 
 	 pushData(){
 		options.data.push(Stock.fetchStock(searchTearm)); 
+		// calling fetchStock from imported "userinput" file
 		// this.chart.render();
+		this.addStock.value = "";
 		setTimeout(() => {
 			this.rerenderOnUpd();
 			console.log('updated');
-			
 		}, 800);
 		setTimeout(() => {
 			this.rerenderOnUpd();
 			console.log('updated');
-			
 		}, 1800);
 		setTimeout(() => {
 			this.rerenderOnUpd();
-			console.log('updated');
-			
+			console.log('updated');	
 		}, 2500) 
+		// rerendering chart to ensure that if stock takes a lot of time to render it will appear		
 	}
 
 	testlog(){
@@ -112,7 +107,9 @@ class MultiseriesChart extends Component {
 	}
 
 	render() {
+		// initial charts below
 			options = {
+				backgroundColor: '#f2f1f0',
 				animationEnabled: true,	
 				zoomEnabled: true,
 				exportEnabled: true,
@@ -133,7 +130,7 @@ class MultiseriesChart extends Component {
 				},
 				
 				data: [
-			/* 1 */	{
+					{
 						type: "line",
 						name: 'INX',
 						xValueFormatString: "MMM YYYY",
@@ -142,16 +139,36 @@ class MultiseriesChart extends Component {
 					}
 				]}
 
-
+				
 		return (
-		<div /* style={thestyles} */>
+			<div /* style={thestyles} */>
 			<h1>React Multiseries Chart</h1>
 			<CanvasJSChart options = {options} 
 				onRef={ref => this.chart = ref}		/>
 			{/* You can get reference to the chart instance as shown above using onRef. This allows you to access all chart properties and methods */}
-			<input placeholder="Search by index" onChange={this.handleSearch} /> 
-			<button className="testbutton" onClick={this.pushData}>pushData</button>
-		</div>
+			<div className="field"><div className="field-box"/><div className="field-box"/></div>
+			<div className="input-box">
+				<div className="input-block">
+					<div className="group">
+						<input type="text" id="name" 
+							   ref={el => this.addStock = el} 
+							   required="required" 
+							   onChange={this.handleSearch}
+							   onKeyPress={this.enterPressed.bind(this)}
+						 />
+						<label htmlFor="name">Stock symbol</label>
+						<div className="bar"></div>
+					</div>
+				</div>
+				<div className="input-block">
+					<div className="btn-bg bg-2">
+							<div className="btn btn-2">
+								<button onClick={this.pushData}>Add stock</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
 		);
 	}
 }
