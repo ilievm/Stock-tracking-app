@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import MultiseriesChart from './views/Multiseries Chart';
+import {MultiseriesChart} from './views/Multiseries Chart';
 import TheRest from './views/TheRest';
 
 

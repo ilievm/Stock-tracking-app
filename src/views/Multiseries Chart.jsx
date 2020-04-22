@@ -6,13 +6,17 @@ var CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
 let options;
 let searchTearm;
+let counter = 0;
+
 
 class MultiseriesChart extends Component {	
 	constructor(props) {
 		super(props);
 		this.state = {
-		  stockChartXValues: [],
-		  stockChartYValues: []
+		//   stockChartXValues: [],
+		//   stockChartYValues: []
+		//   percentChartXValues: [],
+		//   percentChartYValues: []
 		//   where do we write info from the api
 		}			
 		this.pushData=this.pushData.bind(this);
@@ -21,52 +25,81 @@ class MultiseriesChart extends Component {
 	  }
 	
 	  componentDidMount() {
-		this.fetchStock()		
+		// this.fetchStock()		
+		const receivedObjects = Stock.fetchStock('INX')		 
+		options.data.push(receivedObjects[0]); 
+		options.data.push(receivedObjects[1]); 
+		// this.chart.render();
+		++counter;
+		console.log(counter);
+		
+		this.addStock.value = "";
+		setTimeout(() => {
+			this.rerenderOnUpd();
+		}, 800);
+		setTimeout(() => {
+			this.rerenderOnUpd();
+		}, 1800);
+		setTimeout(() => {
+			this.rerenderOnUpd();
+		}, 2500) 
 	  }
 	//   reading api on start
 	
-	  fetchStock() {
-		const pointerToThis = this;
-		// console.log(pointerToThis);
-		const API_KEY = '740WRQPFQK10PTAG';
-		let StockSymbol = 'INX';
-		let API_Call = `https://www.alphavantage.co/query?function=TIME_SERIES_MONTHLY_ADJUSTED&symbol=${StockSymbol}&apikey=${API_KEY}`;
-		let stockChartXValuesFunction = [];
-		let stockChartYValuesFunction = [];
+	//   fetchStock() {
+	// 	const pointerToThis = this;
+	// 	// console.log(pointerToThis);
+	// 	const API_KEY = '740WRQPFQK10PTAG';
+	// 	let StockSymbol = 'INX';
+	// 	let API_Call = `https://www.alphavantage.co/query?function=TIME_SERIES_MONTHLY_ADJUSTED&symbol=${StockSymbol}&apikey=${API_KEY}`;
+	// 	// initial graph data
+	// 	let stockChartXValuesFunction = [];
+	// 	let stockChartYValuesFunction = [];
+	// 	let percentChartXValuesFunction = [];
+	// 	let percentChartYValuesFunction = [];
 	
-		fetch(API_Call)
-		  .then(
-			function(response) {
-			  return response.json();
-			}
-		  ) /* actually fetching data */
-		  .then(
-			function(data) {					
-			  for (var key in data['Monthly Adjusted Time Series']) {
-				stockChartXValuesFunction.push(key);
-				stockChartYValuesFunction.push(Math.floor(Number(data['Monthly Adjusted Time Series'][key]['5. adjusted close'])));
+	// 	fetch(API_Call)
+	// 	  .then(
+	// 		function(response) {
+	// 		  return response.json();
+	// 		}
+	// 	  ) /* actually fetching data */
+	// 	  .then(
+	// 		function(data) {					
+	// 		  for (var key in data['Monthly Adjusted Time Series']) {
+	// 			stockChartXValuesFunction.push(key);
+	// 			stockChartYValuesFunction.push(Math.floor(Number(data['Monthly Adjusted Time Series'][key]['5. adjusted close'])));
 				
-			}
-			// pushing them in the state
+	// 		}
+	// 		// pushing them in the state
 			
-			  pointerToThis.setState({
-				stockChartXValues: stockChartXValuesFunction,
-				stockChartYValues: stockChartYValuesFunction
-				//  /\state.............../\value from the function above
-			  })
-			//   console.log(pointerToThis.state);
+	// 		  pointerToThis.setState({
+	// 			stockChartXValues: stockChartXValuesFunction,
+	// 			stockChartYValues: stockChartYValuesFunction
+	// 			//  /\state.............../\value from the function above
+	// 		  })
+	// 		//   console.log(pointerToThis.state);
 			  
-			}
-		  )
-	  }
-	// iterates over the function above and pushes values one by one to a new var and returns it
-	Stock1(param) {
-		let y = [];
-		for (let i = 0;  i <= this.state.stockChartXValues.length; i++) {
-			y.push({y: this.state.stockChartYValues[i], label: this.state.stockChartXValues[i]})}
-		return y
-	// iterates over state and one by one pushing stock to Y on command. then called from render to chart the line
-	}
+	// 		}
+	// 	  )
+	//   }
+	// // iterates over the function above and pushes values one by one to a new var and returns it
+	// Stock1(param) {
+	// 	let y = [];
+	// 	for (let i = 0;  i < this.state.stockChartXValues.length; i++) {
+	// 		y.push({y: this.state.stockChartYValues[i], label: this.state.stockChartXValues[i]})}
+	// 	return y
+	// // iterates over state and one by one pushing stock to Y on command. then called from render to chart the line
+	// }
+	// Percents1(param) {
+	// 	let p = [];
+	// 	for (let i = 0;  i < this.state.percentChartXValuesFunction.length; i++) {
+	// 		p.push({y: (this.state.percentChartYValuesFunction[i]/
+	// 										 this.state.percentChartYValuesFunction[this.state.percentChartYValuesFunction.length - 1] *100 ),
+	// 										 label: this.state.percentChartXValuesFunction[i]})}  
+	// 	return p
+	// // iterates over state and one by one pushing stock to Y on command. then called from render to chart the line
+	// }
 
 	rerenderOnUpd() {
 		this.chart.render()}
@@ -83,21 +116,23 @@ class MultiseriesChart extends Component {
 	}
 
 	 pushData(){
-		options.data.push(Stock.fetchStock(searchTearm)); 
-		// calling fetchStock from imported "userinput" file
+		 const receivedObjects = Stock.fetchStock(searchTearm)		 
+		 // calling fetchStock from imported "userinput" file
+		options.data.push(receivedObjects[0]); 
+		options.data.push(receivedObjects[1]); 
 		// this.chart.render();
+		++counter;
+		console.log(counter);
+		
 		this.addStock.value = "";
 		setTimeout(() => {
 			this.rerenderOnUpd();
-			console.log('updated');
 		}, 800);
 		setTimeout(() => {
 			this.rerenderOnUpd();
-			console.log('updated');
 		}, 1800);
 		setTimeout(() => {
 			this.rerenderOnUpd();
-			console.log('updated');	
 		}, 2500) 
 		// rerendering chart to ensure that if stock takes a lot of time to render it will appear		
 	}
@@ -125,18 +160,33 @@ class MultiseriesChart extends Component {
 					includeZero: true
 	
 				},
+				axisY2: {
+					title: "Percent",
+					suffix: "%",
+					lineColor: "#C0504E",
+					tickColor: "#C0504E",
+					labelFontColor: "#C0504E"
+				},
 				toolTip: {
 					shared: true
 				},
 				
 				data: [
-					{
-						type: "line",
-						name: 'INX',
-						xValueFormatString: "MMM YYYY",
-						showInLegend: true,
-						dataPoints: this.Stock1()
-					}
+					// {
+					// 	type: "line",
+					// 	name: 'INX',
+					// 	xValueFormatString: "MMM YYYY",
+					// 	showInLegend: true,
+					// 	dataPoints: this.Stock1()
+					// },
+					// {
+					// 	type: "splineArea",
+					// 	showInLegend: true,
+					// 	axisYType: "secondary",
+					// 	suffix: "%",
+					// 	name: '',
+					// 	dataPoints: this.Percents1()
+					// }
 				]}
 
 				
@@ -168,9 +218,10 @@ class MultiseriesChart extends Component {
 						</div>
 					</div>
 				</div>
+				
 			</div>
 		);
 	}
 }
 
-export default MultiseriesChart;
+export  {MultiseriesChart, counter};
