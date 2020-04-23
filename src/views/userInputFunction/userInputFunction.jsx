@@ -14,7 +14,7 @@ const Stock = {
                 };
 
                 let growthObject={
-                    type: "splineArea",
+                    type: "area",
                     showInLegend: true,
                     axisYType: "secondary",
                     suffix: "%",

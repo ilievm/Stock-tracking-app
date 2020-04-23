@@ -7,29 +7,26 @@ var CanvasJSChart = CanvasJSReact.CanvasJSChart;
 let options;
 let searchTearm;
 let counter = 0;
+let isVisible = false;
 
 
 class MultiseriesChart extends Component {	
 	constructor(props) {
 		super(props);
 		this.state = {
-		//   stockChartXValues: [],
-		//   stockChartYValues: []
-		//   percentChartXValues: [],
-		//   percentChartYValues: []
-		//   where do we write info from the api
+			visible: false
 		}			
 		this.pushData=this.pushData.bind(this);
 		this.handleSearch=this.handleSearch.bind(this)	
+		this.toggleVisibility=this.toggleVisibility.bind(this)	
 		this.testlog=this.testlog.bind(this)	
 	  }
 	
 	  componentDidMount() {
-		// this.fetchStock()		
+		//   on startup calling userinput
 		const receivedObjects = Stock.fetchStock('INX')		 
 		options.data.push(receivedObjects[0]); 
 		options.data.push(receivedObjects[1]); 
-		// this.chart.render();
 		++counter;
 		console.log(counter);
 		
@@ -45,64 +42,10 @@ class MultiseriesChart extends Component {
 		}, 2500) 
 	  }
 	//   reading api on start
-	
-	//   fetchStock() {
-	// 	const pointerToThis = this;
-	// 	// console.log(pointerToThis);
-	// 	const API_KEY = '740WRQPFQK10PTAG';
-	// 	let StockSymbol = 'INX';
-	// 	let API_Call = `https://www.alphavantage.co/query?function=TIME_SERIES_MONTHLY_ADJUSTED&symbol=${StockSymbol}&apikey=${API_KEY}`;
-	// 	// initial graph data
-	// 	let stockChartXValuesFunction = [];
-	// 	let stockChartYValuesFunction = [];
-	// 	let percentChartXValuesFunction = [];
-	// 	let percentChartYValuesFunction = [];
-	
-	// 	fetch(API_Call)
-	// 	  .then(
-	// 		function(response) {
-	// 		  return response.json();
-	// 		}
-	// 	  ) /* actually fetching data */
-	// 	  .then(
-	// 		function(data) {					
-	// 		  for (var key in data['Monthly Adjusted Time Series']) {
-	// 			stockChartXValuesFunction.push(key);
-	// 			stockChartYValuesFunction.push(Math.floor(Number(data['Monthly Adjusted Time Series'][key]['5. adjusted close'])));
-				
-	// 		}
-	// 		// pushing them in the state
-			
-	// 		  pointerToThis.setState({
-	// 			stockChartXValues: stockChartXValuesFunction,
-	// 			stockChartYValues: stockChartYValuesFunction
-	// 			//  /\state.............../\value from the function above
-	// 		  })
-	// 		//   console.log(pointerToThis.state);
-			  
-	// 		}
-	// 	  )
-	//   }
-	// // iterates over the function above and pushes values one by one to a new var and returns it
-	// Stock1(param) {
-	// 	let y = [];
-	// 	for (let i = 0;  i < this.state.stockChartXValues.length; i++) {
-	// 		y.push({y: this.state.stockChartYValues[i], label: this.state.stockChartXValues[i]})}
-	// 	return y
-	// // iterates over state and one by one pushing stock to Y on command. then called from render to chart the line
-	// }
-	// Percents1(param) {
-	// 	let p = [];
-	// 	for (let i = 0;  i < this.state.percentChartXValuesFunction.length; i++) {
-	// 		p.push({y: (this.state.percentChartYValuesFunction[i]/
-	// 										 this.state.percentChartYValuesFunction[this.state.percentChartYValuesFunction.length - 1] *100 ),
-	// 										 label: this.state.percentChartXValuesFunction[i]})}  
-	// 	return p
-	// // iterates over state and one by one pushing stock to Y on command. then called from render to chart the line
-	// }
 
 	rerenderOnUpd() {
-		this.chart.render()}
+		this.chart.render()
+	}
 
 	handleSearch(event){
 		searchTearm = event.target.value.toUpperCase()}
@@ -115,9 +58,9 @@ class MultiseriesChart extends Component {
 		} 
 	}
 
-	 pushData(){
-		 const receivedObjects = Stock.fetchStock(searchTearm)		 
-		 // calling fetchStock from imported "userinput" file
+	pushData(){
+		const receivedObjects = Stock.fetchStock(searchTearm)		 
+		// calling fetchStock from imported "userinput" file
 		options.data.push(receivedObjects[0]); 
 		options.data.push(receivedObjects[1]); 
 		// this.chart.render();
@@ -133,12 +76,29 @@ class MultiseriesChart extends Component {
 		}, 1800);
 		setTimeout(() => {
 			this.rerenderOnUpd();
-		}, 2500) 
+		}, 3500) 
 		// rerendering chart to ensure that if stock takes a lot of time to render it will appear		
 	}
 
+	toggleVisibility(){
+		for (let objNum in options.data) {
+			if (objNum % 2 === 1) {
+			options.data[objNum]["visible"] = !isVisible
+			console.log(isVisible);
+			}
+		}
+		this.rerenderOnUpd();
+		isVisible = !isVisible
+	}
+
 	testlog(){
-		console.log(Stock.fetchStock('INX'));
+		for (const key in options.data) {
+			if (options.data.hasOwnProperty(key)) {
+				const element = options.data[key];
+				console.log(element);
+				
+			}
+		}		
 	}
 
 	render() {
@@ -171,23 +131,7 @@ class MultiseriesChart extends Component {
 					shared: true
 				},
 				
-				data: [
-					// {
-					// 	type: "line",
-					// 	name: 'INX',
-					// 	xValueFormatString: "MMM YYYY",
-					// 	showInLegend: true,
-					// 	dataPoints: this.Stock1()
-					// },
-					// {
-					// 	type: "splineArea",
-					// 	showInLegend: true,
-					// 	axisYType: "secondary",
-					// 	suffix: "%",
-					// 	name: '',
-					// 	dataPoints: this.Percents1()
-					// }
-				]}
+				data: [	]}
 
 				
 		return (
@@ -212,13 +156,28 @@ class MultiseriesChart extends Component {
 				</div>
 				<div className="input-block">
 					<div className="btn-bg bg-2">
-							<div className="btn btn-2">
-								<button onClick={this.pushData}>Add stock</button>
-							</div>
+						<div className="btn btn-2">
+							<button onClick={this.pushData}>Add stock</button>
 						</div>
 					</div>
 				</div>
-				
+			</div>
+			<div className="togglePercent">
+				<p className="toggleText">Display percentage growth:</p>
+				<div className="switch_box box_1">
+					<input type="checkbox" className="switch_1" onClick={this.toggleVisibility} />
+				</div>
+			</div>
+			{/* <div className='card-list'>
+              {props.monsters.map(monster => (
+				  <div className='card-container '>
+					  <img src={`https://robohash.org/${props.monster.id}?set=set2&size=180x180`} alt="monster" />
+					  <h2> {props.monster.name}</h2>
+					  <p>{props.monster.email}</p>
+				  </div>
+                ))}    
+            </div> */}
+
 			</div>
 		);
 	}
