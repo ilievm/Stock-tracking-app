@@ -1,6 +1,4 @@
-// mb define apikey
 // second API key = 'HGJWFG4N8AQ66ICD'
-import {counter} from '../Multiseries Chart'
 
 const Stock = {
             fetchStock(name) {

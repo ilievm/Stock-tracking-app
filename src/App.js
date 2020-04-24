@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import {MultiseriesChart} from './views/Multiseries Chart';
-import TheRest from './views/TheRest';
+import MultiseriesChart from './views/Multiseries Chart';
 
 
 let contStyles = {
@@ -15,7 +14,6 @@ class App extends Component {
         <div className="container" style={contStyles}>
           <MultiseriesChart/>
         </div>
-        <TheRest />
       </div>
     );
   }
