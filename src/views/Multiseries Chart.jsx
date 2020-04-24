@@ -18,7 +18,6 @@ class MultiseriesChart extends Component {
 		this.pushData=this.pushData.bind(this);
 		this.handleSearch=this.handleSearch.bind(this)	
 		this.toggleVisibility=this.toggleVisibility.bind(this)	
-		this.testlog=this.testlog.bind(this)	
 	  }
 	
 	  componentDidMount() {
@@ -59,9 +58,7 @@ class MultiseriesChart extends Component {
 		const receivedObjects = Stock.fetchStock(searchTearm)		 
 		// calling fetchStock from imported "userinput" file
 		options.data.push(receivedObjects[0]); 
-		options.data.push(receivedObjects[1]); 
-		// this.chart.render();
-		
+		options.data.push(receivedObjects[1]); 		
 		this.addStock.value = "";
 		setTimeout(() => {
 			this.rerenderOnUpd();
@@ -79,21 +76,10 @@ class MultiseriesChart extends Component {
 		for (let objNum in options.data) {
 			if (objNum % 2 === 1) {
 			options.data[objNum]["visible"] = !isVisible
-			console.log(isVisible);
 			}
 		}
 		this.rerenderOnUpd();
 		isVisible = !isVisible
-	}
-
-	testlog(){
-		for (const key in options.data) {
-			if (options.data.hasOwnProperty(key)) {
-				const element = options.data[key];
-				console.log(element);
-				
-			}
-		}		
 	}
 
 	render() {

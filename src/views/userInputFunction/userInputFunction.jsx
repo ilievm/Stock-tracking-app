@@ -22,7 +22,6 @@ const Stock = {
                 };
                 
                 
-                // console.log(pointerToThis);
                 const API_KEY = '740WRQPFQK10PTAG';
                 let API_Call = `https://www.alphavantage.co/query?function=TIME_SERIES_MONTHLY_ADJUSTED&symbol=${name}&apikey=${API_KEY}`;
                 let stockChartXValuesFunction = [];
@@ -35,10 +34,11 @@ const Stock = {
                     }
                 ) /* actually fetching data */
                 .then(
-                    function(data) {	
-                        console.log();
-                        
-                     stockObject.name = data['Meta Data']["2. Symbol"] ;
+                    function(data) {	  
+                        if (data.hasOwnProperty('Error Message')) {
+                            return [{}, {}]
+                        }                                          
+                    stockObject.name = data['Meta Data']["2. Symbol"] ;
                     growthObject.name = data['Meta Data']["2. Symbol"] + '%' ;
                     for (var key in data['Monthly Adjusted Time Series']) {
                         stockChartXValuesFunction.push(key);
