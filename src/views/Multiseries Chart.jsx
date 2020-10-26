@@ -22,7 +22,7 @@ class MultiseriesChart extends Component {
 	
 	  componentDidMount() {
 		//   on startup calling userinput
-		const receivedObjects = Stock.fetchStock('INX')		 
+		const receivedObjects = Stock.fetchStock('INTL')		 
 		options.data.push(receivedObjects[0]); 
 		options.data.push(receivedObjects[1]); 
 		
@@ -32,10 +32,10 @@ class MultiseriesChart extends Component {
 		}, 800);
 		setTimeout(() => {
 			this.rerenderOnUpd();
-		}, 1800);
+		}, 2300);
 		setTimeout(() => {
 			this.rerenderOnUpd();
-		}, 2500) 
+		}, 6800) 
 	  }
 	//   reading api on start
 
@@ -55,7 +55,7 @@ class MultiseriesChart extends Component {
 	}
 
 	pushData(){
-		const receivedObjects = Stock.fetchStock(searchTearm)		 
+		const receivedObjects = Stock.fetchStock(searchTearm);	 
 		// calling fetchStock from imported "userinput" file
 		options.data.push(receivedObjects[0]); 
 		options.data.push(receivedObjects[1]); 		
@@ -65,10 +65,10 @@ class MultiseriesChart extends Component {
 		}, 800);
 		setTimeout(() => {
 			this.rerenderOnUpd();
-		}, 1800);
+		}, 2200);
 		setTimeout(() => {
 			this.rerenderOnUpd();
-		}, 3500) 
+		}, 4500) 
 		// rerendering chart to ensure that if stock takes a lot of time to render it will appear		
 	}
 
@@ -149,7 +149,7 @@ class MultiseriesChart extends Component {
 				</div>
 			</div>
 			<div className="togglePercent">
-				<p className="toggleText">Display percentage growth:</p>
+				<p className="toggleText">Display relative percentage growth:</p>
 				<div className="switch_box box_1">
 					<input type="checkbox" className="switch_1" onClick={this.toggleVisibility} />
 				</div>

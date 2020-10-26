@@ -274,6 +274,40 @@ input[type="checkbox"].switch_1{
   input[type="checkbox"].switch_1:checked:after{
 	left: calc(100% - 1.5em);
   }
+/* ============================== */
+
+.error {
+  background-color: red;
+  font-size: large;
+
+}
+
+.addIndexes {
+  position: absolute;
+  left: 6%;
+  top: 50%;
+}
+
+
+
+.addIndexes button {
+  all: initial;
+  font-family: 'Lato';
+  background-color: #2195f373;
+  color: #ffffff;
+  font-size: 1.2em;
+  padding: 5px 10px;
+  margin-bottom: 20px;
+  cursor: pointer;
+}
+
+.addIndexes button:hover {
+  background-color: #2195f3cc;
+  color: #ffffff;
+  transform: scale(1.1);
+  transition: all 0.2s;
+}
+
 
  footer {
     width: 100%;

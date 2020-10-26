@@ -34,12 +34,13 @@ const Stock = {
                     }
                 ) /* actually fetching data */
                 .then(
-                    function(data) {	  
-                        if (data.hasOwnProperty('Error Message')) {
+                    function(data) {	                          
+                        if (data['Meta Data'] === undefined ) {
                             return [{}, {}]
-                        }                                          
+                        }                          
+                                        
                     stockObject.name = data['Meta Data']["2. Symbol"] ;
-                    growthObject.name = data['Meta Data']["2. Symbol"] + '%' ;
+                    growthObject.name = data['Meta Data']["2. Symbol"] + ' %' ;
                     for (var key in data['Monthly Adjusted Time Series']) {
                         stockChartXValuesFunction.push(key);
                         stockChartYValuesFunction.push(parseInt(data['Monthly Adjusted Time Series'][key]['5. adjusted close']));
